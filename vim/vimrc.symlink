@@ -67,6 +67,7 @@ nnoremap <silent> <Leader>a :TestSuite<CR>
 " Move between Linting Errors "
 nnoremap ]r :ALENextWrap<CR>
 nnoremap ]r :ALEPreviousWrap<CR>
+nmap <leader>p :ALEFix<CR>
 
 " Movement Between Panes "
 nnoremap <C-j> <C-w>j
@@ -115,6 +116,10 @@ let g:user_emmet_settings = {
 	\	'extends': 'jsx'
 	\ },
 \ }
+
+let g:ale_fixers = {
+  \ 'javascript': ['eslint']
+  \ }
 
 """""""""""""""""""
 " Language Server "
@@ -184,7 +189,7 @@ endif
 " gruvbox
 " night-owl
 " nord
-"" Set colorscheme with "colorscheme <scheme>"
+"" Set colorscheme with `colorscheme <scheme>`
 colorscheme night-owl
 
 set runtimepath+=~/.vim/plugins/LanguageClient-neovim
