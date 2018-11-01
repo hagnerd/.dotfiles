@@ -19,6 +19,7 @@ if [ "$(uname)" == "Darwin" ]; then
 
 	source install/brew.sh
 	source install/osx.sh
+  source install/rush.sh
 
   # Installs n for easy node version management 👍
   curl -L https://git.io/n-install | bash
