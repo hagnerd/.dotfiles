@@ -12,17 +12,10 @@ Plug 'ryanoasis/vim-devicons'
 """""""
 Plug 'styled-components/vim-styled-components'
 
-""""""""""""""""""
-" FILE UTILITIES "
-""""""""""""""""""
-" Plug 'scrooloose/nerdtree'
-Plug 'w0rp/ale'
-
 """""""""""""""""""""
 " General Utilities "
 """""""""""""""""""""
 Plug 'tpope/vim-eunuch'
-Plug 'kronos-io/kronos.vim'
 
 """"""""""
 " GraphQL"
@@ -53,11 +46,6 @@ Plug 'peitalin/vim-jsx-typescript'
 """"""""""""""""""""
 Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
 
-""""""""""""""""""""""
-" MOVEMENT UTILITIES "
-""""""""""""""""""""""
-" Plug 'terryma/vim-multiple-cursors'
-
 """"""""""""""
 " MULTI-LANG "
 """"""""""""""
@@ -82,6 +70,11 @@ Plug 'jremmen/vim-ripgrep'
 """"""""""
 " THEMES "
 """"""""""
+" Plug 'cocopon/iceberg.vim'
+" Plug 'Badacadabra/vim-archery'
+" Plug 'whatyouhide/vim-gotham'
+" Plug 'mharington/oceanic-next'
+Plug 'morhetz/gruvbox'
 Plug 'haishanh/night-owl.vim'
 
 """""""""""""""""""
