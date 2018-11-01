@@ -5,12 +5,12 @@ if test ! "$(which brew)"; then
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
-echo "------------------------"
-echo "Cracking open a cold one"
-echo "------------------------"
+echo "---------------------------"
+echo "Cracking open a cold one 🍺"
+echo "---------------------------"
 
 echo "\n\nInstalling Homebrew Packages..."
-echo "------------------------"
+echo "-----------------------------------"
 
 formulas=(
   ack
@@ -26,7 +26,6 @@ formulas=(
   mas
   mongodb
   neovim
-  node
   peco
   python
   python3
@@ -48,6 +47,7 @@ formulas=(
 
 cask_formulas=(
   cheatsheet
+  dropbox
   gimp
   insomnia
   karabiner-elements
@@ -76,11 +76,11 @@ for formula in "${formulas[@]}"; do
 done
 
 # iterate through the list of brew cask apps and install if not already installed
-for formula in "${cask_formulas[@]}"; do
-  if brew cask list "$formula" > /dev/null 2>&1; then
-    echo "$formula already installed... skipping..."
+for cask_formula in "${cask_formulas[@]}"; do
+  if brew cask list "$cask_formula" > /dev/null 2>&1; then
+    echo "$cask_formula already installed... skipping..."
   else
-    brew cask install "$formula"
+    brew cask install "$cask_formula"
   fi
 done
 
