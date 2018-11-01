@@ -17,4 +17,12 @@ for file in $linkables; do
 	fi
 done
 
-# Comback and set up config workflow
+# TODO: Come back and set up config workflow
+
+if ! [ -d $HOME/.config/nvim ]; then
+  mkdir -p "$HOME/.config/nvim"
+fi
+
+# TODO: Come up with a better way to automate 🤔
+
+ln -s "$HOME/.dotfiles/config/init.vim" "$HOME/.config/nvim/init.vim"
