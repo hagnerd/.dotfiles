@@ -14,7 +14,7 @@ command_exists() {
 
 # iterate through any nested zsh pre-config files, and source them
 if [ -d $ZSH/pre ]; then
-  for preconf ($ZSH/pre/**/*.zsh) source $preconfig
+  for preconfig ($ZSH/pre/**/*.zsh) source $preconfig
 fi
 
   # iterate through any nested zsh config files, and source them
@@ -24,7 +24,7 @@ fi
 
 # iterate through any nested zsh post-config files, and source them
 if [ -d $ZSH/post ]; then
-  for postconf ($ZSH/post/**/*.zsh) source $postconf
+  for postconfig ($ZSH/post/**/*.zsh) source $postconfig
 fi
 
 
