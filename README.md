@@ -4,9 +4,9 @@ This README, and the dotfiles are a work in progress. I'm constantly slicing, an
 
 * [The Idea](#the-idea)
 * [Customizations](#customizations)
-*   [Zsh](#zsh)
+  * [Zsh](#zsh)
 * [Installation](#installation)
-*   [Mac OS](#mac-os)
+  * [Mac OS](#mac-os)
 
 ## The Idea
 
