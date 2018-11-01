@@ -1,0 +1,107 @@
+let g:has_async = v:version >= 800 || has ('nvm')
+
+call plug#begin('~/.vim/bundle')
+
+""""""""""""""
+" APPEARANCE "
+""""""""""""""
+Plug 'ryanoasis/vim-devicons'
+
+"""""""
+" CSS "
+"""""""
+Plug 'styled-components/vim-styled-components'
+
+""""""""""""""""""
+" FILE UTILITIES "
+""""""""""""""""""
+" Plug 'scrooloose/nerdtree'
+Plug 'w0rp/ale'
+
+"""""""""""""""""""""
+" General Utilities "
+"""""""""""""""""""""
+Plug 'tpope/vim-eunuch'
+Plug 'kronos-io/kronos.vim'
+
+""""""""""
+" GraphQL"
+""""""""""
+Plug 'jparise/vim-graphql'
+
+""""""""
+" HTML "
+""""""""
+Plug 'mattn/emmet-vim'
+
+""""""""""""""
+" JavaScript "
+""""""""""""""
+" SYNTAX HIGHLIGHTING
+Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'jxnblk/vim-mdx-js'
+" FORMATTING 
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+
+" => TYPESCRIPT "
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+
+""""""""""""""""""""
+" LANGUAGE CLIENTS "
+""""""""""""""""""""
+Plug 'autozimu/LanguageClient-neovim', { 'branch': 'next', 'do': 'bash install.sh' }
+
+""""""""""""""""""""""
+" MOVEMENT UTILITIES "
+""""""""""""""""""""""
+" Plug 'terryma/vim-multiple-cursors'
+
+""""""""""""""
+" MULTI-LANG "
+""""""""""""""
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'vim-scripts/tComment'
+
+"=============
+" REASONML   |
+"=============
+Plug 'reasonml-editor/vim-reason-plus'
+
+""""""""""""""""""""
+" Search Utilities "
+""""""""""""""""""""
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'jremmen/vim-ripgrep'
+
+""""""""""
+" THEMES "
+""""""""""
+Plug 'haishanh/night-owl.vim'
+
+"""""""""""""""""""
+" Version Control "
+"""""""""""""""""""
+Plug 'tpope/vim-fugitive'
+
+if g:has_async
+  Plug 'w0rp/ale'
+endif
+
+if filereadable(expand("~/.vimrc.bundles.local"))
+  source ~/.vimrc.bundles.local
+endif
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  let g:deoplete#enable_at_startup = 1
+endif
+
+call plug#end()
+
+

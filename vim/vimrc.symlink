@@ -1,0 +1,190 @@
+"===================================================================================================================================================
+" Author: Matt Hagner
+" Source: https://github.com/hagnerd/dotfiles
+"---------------------------------------------------------------------------------------------------------------------------------------------------
+
+let mapleader = "\<Space>"
+nmap <leader>vr :tabe ~/.vimrc<cr>
+nmap <leader>so :source ~/.vimrc<cr>
+
+" Intelligently handles moving up and down on wrapped lines, but hijacks
+" normal k and j function
+nmap k gk
+nmap j gj
+
+""""""""""""""""""
+" Basic Settings "
+""""""""""""""""""
+
+" When the type of shell script is /bin/sh, assume POSIX-compatible
+" shell for syntax highlighting purposes
+let g:is_posix = 1
+
+set backspace=2
+set history=50
+set ruler " show the cursor position at all times
+set showcmd " display incomplete commands
+set incsearch " do incremental searching
+set autowrite " Automatically :write before funning commands
+set laststatus=2 " for vim lightline to work properly
+set clipboard=unnamed " use global clipboard
+set encoding=UTF-8
+set autochdir " Automatically changes the directory to match the working file
+
+" Softtabs, 2 spaces "
+set tabstop=2
+set shiftwidth:2
+set shiftround
+set expandtab
+
+" Always keep gutter visible
+set signcolumn=yes
+
+" Use one space, not two after puncuation
+set nojoinspaces
+
+" Line number Numbers "
+set number relativenumber
+set numberwidth=5
+
+" CURSOR SHAPE/BEHAVIOR "
+" change on insertion blinky rectangle
+let &t_SI = "\e[1 q"
+" revert on exit insertion solid rectangle
+let &t_EI = "\e[2 q"
+
+"""""""""""""""""""""""""""""""""""""
+" Keybindings / Shortcuts / Aliases "
+"""""""""""""""""""""""""""""""""""""
+
+" vim-test mappings "
+nnoremap <silent> <Leader>t :TestFile<CR> 
+" setup test runner "
+nnoremap <silent> <Leader>s :TestNearest<CR>
+nnoremap <silent> <Leader>l :TestLast<CR>
+nnoremap <silent> <Leader>a :TestSuite<CR>
+
+" Move between Linting Errors "
+nnoremap ]r :ALENextWrap<CR>
+nnoremap ]r :ALEPreviousWrap<CR>
+
+" Movement Between Panes "
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+" FZF "
+nmap <C-p> :Files<CR>
+
+" RIPGREP "
+nmap <C-g> :Rg<CR>
+
+" NerdTree " 
+nnoremap <Leader>n :e .<CR>
+
+"""""""""
+" Panes "
+"""""""""
+
+" Open split panes below and to the right
+set splitbelow
+set splitright
+
+
+"""""""""""
+" Plugins "
+"""""""""""
+
+if empty(glob('~/.vim/autoload/plug.vim'))
+	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+	        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	autocmd VimEnter * PlugInstall --sync | source ~/.vimrc
+endif
+
+" Check for bundles file & Source "
+if filereadable(expand("~/.vimrc.bundles"))
+	source ~/.vimrc.bundles
+endif
+
+filetype plugin indent on
+
+let g:user_emmet_leader_key='<C-y>'
+let g:user_emmet_settings = {
+	\ 'javascript.jsx': {
+	\	'extends': 'jsx'
+	\ },
+\ }
+
+"""""""""""""""""""
+" Language Server "
+"""""""""""""""""""
+
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_serverCommands = {}
+
+""""""""""""
+" AUTOCMDS "
+""""""""""""
+
+augroup language_client
+	autocmd!
+	
+	" ? Maybe clean this up and split it out into its own separate thing
+	autocmd BufNewFile, BufRead *.tsx, *.jsx, set filetype=typescript.jsx
+
+	" Ale linting events
+	if g:has_async
+		set updatetime=1000
+		let g:ale_lint_on_text_changed = 0
+		autocmd CursorHold * call ale#Lint()
+		autocmd CursorHoldI * call ale#Lint()
+		autocmd InsertEnter * call ale#Lint()
+		autocmd InsertLeave * call ale#Lint()
+	else
+		echoerr "Your dotfiles require NeoVim or Vim8"
+	endif
+	
+	if executable('javascript-typescript-stdio')
+		set hidden
+		let g:LanguageClient_serverCommands.javascript = [ 'javascript-typescript-stdio' ]
+		nnoremap <leader>d :call LanguageClient#textDocument_hover()<CR>
+		nnoremap <leader>gd :call LanguageClient#textDocument_definition()<CR>
+		nnoremap <leader>r :call LanguageClient#textDocument_rename()<CR>
+	endif
+
+  " ReasonML
+  let g:LanguageClient_serverCommands.reason = [ '/$HOME/reason-language-server.exe' ]
+	
+augroup END
+
+augroup line_numbers
+	autocmd!
+	
+	autocmd BufEnter, FocusGained, InsertLeave * set relativenumber	
+	autocmd BufLeave, FocusLost, InsertEnter * set norelativenumber	
+	
+augroup END
+
+
+
+""""""""""""""
+" Appearance "
+""""""""""""""
+syntax enable
+
+if (has("termguicolors"))
+	set termguicolors
+endif
+
+
+"\\ COLOR SCHEME //"
+" downloaded
+" archery
+" gruvbox
+" night-owl
+" nord
+"" Set colorscheme with "colorscheme <scheme>"
+colorscheme night-owl
+
+set runtimepath+=~/.vim/plugins/LanguageClient-neovim

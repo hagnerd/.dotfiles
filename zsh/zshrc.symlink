@@ -1,0 +1,78 @@
+export DOTFILES=$HOME/.dotfiles
+export ZSH=$DOTFILES/zsh
+
+export VISUAL=vim
+export EDITOR=$VISUAL
+export GIT_EDITOR=$VISUAL
+export TERM=xterm-256color-italic
+
+export PATH=/usr/local/bin:$PATH
+
+command_exists() {
+	type "$1" > /dev/null 2>&1
+}
+
+# iterate through any nested zsh pre-config files, and source them
+if [ -d $ZSH/pre ]; then
+	for preconf ($ZSH/pre/**/*.zsh) source $preconfig
+fi
+
+# iterate through any nested zsh config files, and source them
+for config ($ZSH/config/**/*.zsh) source $config
+
+# set autoload path
+fpath=(~/.dotfiles/zsh/functions "${fpath[@]}")
+
+# move cursor to end of line after history search completion
+autoload -Uz bip 
+
+# every time we load .zshrc, ditch duplicate path entries
+typeset -U PATH fpath
+
+# add path directory for custom scripts
+export PATH=$DOTFILES/bin:$PATH
+
+# check for custom bin directory in HOME
+if [[ -d ~/bin ]]; then
+	export PATH=~/bin/:$PATH
+fi
+
+# Install and setup Zsh Autocompletions with Brew ?? Good option for extracting
+if type brew &>/dev/null; then
+	FPATH=$(brew --prefix)/share/zsh/site-functions/:$FPATH
+fi
+
+# add colors to MAN pages ?? Good option for extracting
+export MANROFFOPT='-c'
+export LESS_TERMCAP_mb=$(tput bold; tput setaf 2)
+export LESS_TERMCAP_md=$(tput bold; tput setaf 6)
+export LESS_TERMCAP_me=$(tput sgr0)
+export LESS_TERMCAP_so=$(tput bold; tput setaf 3; tput setab 4)
+export LESS_TERMCAP_se=$(tput rmso; tput sgr0)
+export LESS_TERMCAP_us=$(tput smul; tput bold; tput setaf 7)
+export LESS_TERMCAP_ue=$(tput rmul; tput sgr0)
+export LESS_TERMCAP_mr=$(tput rev)
+export LESS_TERMCAP_mh=$(tput dim)
+
+# FZF ?? Good option for extracting
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# export FZF_DEFAULT_COMMAND='find . $HOME'
+# export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# export FZF_ALT_C_COMMAND="find -t d . $HOME"
+# Old config?
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore-vcs --hidden'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS='--layout=reverse --border'
+
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# iterate through any nested zsh pre-config files, and source them
+#for postconf ($ZSH/post/**/*.zsh) source $postconfig
+ 
+# GoLang
+export GOROOT=$HOME/.go
+export PATH=$PATH:$GOROOT/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+export N_PREFIX="$HOME/n"; [[ :$PATH: == *":$N_PREFIX/bin:"* ]] || PATH+=":$N_PREFIX/bin"  # Added by n-install (see http://git.io/n-install-repo).
