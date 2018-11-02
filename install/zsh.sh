@@ -13,9 +13,10 @@ if [[ "$SHELL" != "$zsh_path" ]]; then
 	echo "Default shell changed to $zsh_path"
 fi
 
-if [ ! -f /usr/local/share/zsh/site-functions/prompt_pure_setup ]; then
-	git clone git@github.com:sindersorhus/pure.git
-	ln -s "$PWD/pure/pure" /usr/local/share/zsh/site-functions/prompt_pure_setup
-	ln -s "$PWD/pure/async.zsh" /usr/local/share/zsh/site-functions/async
+if [[ ! -f /usr/local/share/zsh/site-functions/prompt_pure_setup ]]; then
+	ln -s "$DOTFILES/pure/pure.zsh" /usr/local/share/zsh/site-functions/prompt_pure_setup
+	ln -s "$DOTFILES/pure/async.zsh" /usr/local/share/zsh/site-functions/async
+else
+  echo "Prompt already set up"
 fi
 
