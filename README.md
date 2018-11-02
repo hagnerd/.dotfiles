@@ -41,6 +41,8 @@ If you would like to customize your setup a bit, I suggest forking this repo, an
 
 ### Mac OS
 
+[https://developer.apple.com/downloads/more](https://developer.apple.com/downloads/more)
+
 Run this in the terminal, if git is not installed it will prompt you.
 `git --version` 
 `git clone git@github.com:hagnerd/.dotfiles.git ~/.dotfiles`
