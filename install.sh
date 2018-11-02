@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# initialize submodules
+git submodule init
+
 command_exists() {
 	type "$1" > /dev/null 2>&1
 }
@@ -19,7 +22,7 @@ if [ "$(uname)" == "Darwin" ]; then
 
 	source install/brew.sh
 	source install/osx.sh
-  source install/rush.sh
+  source install/rust.sh
 
   # Installs n for easy node version management 👍
   curl -L https://git.io/n-install | bash
