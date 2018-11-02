@@ -81,9 +81,6 @@ nmap <C-p> :Files<CR>
 " RIPGREP "
 nmap <C-g> :Rg<CR>
 
-" NerdTree " 
-nnoremap <Leader>n :e .<CR>
-
 """""""""
 " Panes "
 """""""""
@@ -96,6 +93,14 @@ set splitright
 """""""""""
 " Plugins "
 """""""""""
+
+" ALE LINT
+" Some of the ale settings need to be set before the plugin loads
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_fixers = {
+  \ 'javascript': ['prettier', 'eslint']
+  \ }
+let g:ale_fix_on_save = 1
 
 if empty(glob('~/.vim/autoload/plug.vim'))
 	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -117,9 +122,6 @@ let g:user_emmet_settings = {
 	\ },
 \ }
 
-let g:ale_fixers = {
-  \ 'javascript': ['eslint']
-  \ }
 
 """""""""""""""""""
 " Language Server "
@@ -138,17 +140,18 @@ augroup language_client
 	" ? Maybe clean this up and split it out into its own separate thing
 	autocmd BufNewFile, BufRead *.tsx, *.jsx, set filetype=typescript.jsx
 
+  " Prefer to run on save instead of running all the time
 	" Ale linting events
-	if g:has_async
-		set updatetime=1000
-		let g:ale_lint_on_text_changed = 0
-		autocmd CursorHold * call ale#Lint()
-		autocmd CursorHoldI * call ale#Lint()
-		autocmd InsertEnter * call ale#Lint()
-		autocmd InsertLeave * call ale#Lint()
-	else
-		echoerr "Your dotfiles require NeoVim or Vim8"
-	endif
+	" if g:has_async
+	" 	set updatetime=1000
+	" 	let g:ale_lint_on_text_changed = 0
+	" 	autocmd CursorHold * call ale#Lint()
+	" 	autocmd CursorHoldI * call ale#Lint()
+	" 	autocmd InsertEnter * call ale#Lint()
+	" 	autocmd InsertLeave * call ale#Lint()
+	" else
+	" 	echoerr "Your dotfiles require NeoVim or Vim8"
+	" endif
 	
 	if executable('javascript-typescript-stdio')
 		set hidden
