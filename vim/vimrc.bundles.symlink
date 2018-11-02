@@ -70,10 +70,10 @@ Plug 'jremmen/vim-ripgrep'
 """"""""""
 " THEMES "
 """"""""""
-" Plug 'cocopon/iceberg.vim'
-" Plug 'Badacadabra/vim-archery'
-" Plug 'whatyouhide/vim-gotham'
-" Plug 'mharington/oceanic-next'
+Plug 'cocopon/iceberg.vim'
+Plug 'Badacadabra/vim-archery'
+Plug 'whatyouhide/vim-gotham'
+Plug 'mhartington/oceanic-next'
 Plug 'morhetz/gruvbox'
 Plug 'haishanh/night-owl.vim'
 
