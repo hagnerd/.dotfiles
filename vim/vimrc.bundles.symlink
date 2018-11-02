@@ -2,44 +2,76 @@ let g:has_async = v:version >= 800 || has ('nvm')
 
 call plug#begin('~/.vim/bundle')
 
-""""""""""""""
-" APPEARANCE "
-""""""""""""""
-Plug 'ryanoasis/vim-devicons'
+" APPEARANCE {{{
 
-"""""""
-" CSS "
-"""""""
+" = ICONS => {{{
+Plug 'ryanoasis/vim-devicons'
+" }}}
+
+" = LIGHTLINE => {{{
+Plug 'itchyny/lightline.vim'
+" }}}
+
+" = THEMES => {{{
+
+Plug 'arcticicestudio/nord-vim'
+Plug 'cocopon/iceberg.vim'
+Plug 'Badacadabra/vim-archery'
+Plug 'whatyouhide/vim-gotham'
+Plug 'mhartington/oceanic-next'
+Plug 'morhetz/gruvbox'
+Plug 'haishanh/night-owl.vim'
+
+" }}}
+
+
+" }}} "
+
+" FORMATTING {{{
+
+Plug 'prettier/vim-prettier', { 
+      \'do': 'npm install' 
+      \}
+
+" }}}
+
+" SYNTAX {{{
+
+" = CSS => {{{
 Plug 'styled-components/vim-styled-components'
+" }}}
+
+" = GRAPHQL => {{{
+Plug 'jparise/vim-graphql'
+" }}}
+
+" = JAVASCRIPT => {{{
+Plug 'pangloss/vim-javascript'
+Plug 'maxmellon/vim-jsx-pretty'
+" }}}
+
+" = MDX => {{{
+Plug 'jxnblk/vim-mdx-js'
+" }}}
+
+" = TYPESCRIPT => {{{
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+" }}}
+
+" }}}
+
 
 """""""""""""""""""""
 " General Utilities "
 """""""""""""""""""""
 Plug 'tpope/vim-eunuch'
 
-""""""""""
-" GraphQL"
-""""""""""
-Plug 'jparise/vim-graphql'
-
 """"""""
 " HTML "
 """"""""
 Plug 'mattn/emmet-vim'
 
-""""""""""""""
-" JavaScript "
-""""""""""""""
-" SYNTAX HIGHLIGHTING
-Plug 'pangloss/vim-javascript'
-Plug 'maxmellon/vim-jsx-pretty'
-Plug 'jxnblk/vim-mdx-js'
-" FORMATTING 
-Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-
-" => TYPESCRIPT "
-Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
 
 """"""""""""""""""""
 " LANGUAGE CLIENTS "
@@ -66,16 +98,6 @@ Plug 'reasonml-editor/vim-reason-plus'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'jremmen/vim-ripgrep'
-
-""""""""""
-" THEMES "
-""""""""""
-Plug 'cocopon/iceberg.vim'
-Plug 'Badacadabra/vim-archery'
-Plug 'whatyouhide/vim-gotham'
-Plug 'mhartington/oceanic-next'
-Plug 'morhetz/gruvbox'
-Plug 'haishanh/night-owl.vim'
 
 """""""""""""""""""
 " Version Control "
