@@ -87,7 +87,7 @@ done
 # tap font caskroom
 brew tap caskroom/fonts
 for font in "${fonts[@]}"; do
-  if brew list "$font" > /dev/null 2>&1; then
+  if brew cask list "$font" > /dev/null 2>&1; then
     echo "$font already installed... skipping..."
   else
     brew cask install "$font"
