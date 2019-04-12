@@ -3,104 +3,18 @@
 " Source: https://github.com/hagnerd/dotfiles
 "---------------------------------------------------------------------------------------------------------------------------------------------------
 
+set nocompatible
+
 let mapleader = "\<Space>"
-nmap <leader>vr :tabe ~/.vimrc<cr>
-nmap <leader>so :source ~/.vimrc<cr>
 
-" Intelligently handles moving up and down on wrapped lines, but hijacks
-" normal k and j function
-nmap k gk
-nmap j gj
-
-""""""""""""""""""
-" Basic Settings "
-""""""""""""""""""
-
-" When the type of shell script is /bin/sh, assume POSIX-compatible
-" shell for syntax highlighting purposes
-let g:is_posix = 1
-
-set backspace=2
-set history=50
-set ruler " show the cursor position at all times
-set showcmd " display incomplete commands
-set incsearch " do incremental searching
-set autowrite " Automatically :write before funning commands
-set laststatus=2 " for vim lightline to work properly
-set clipboard=unnamed " use global clipboard
-set encoding=UTF-8
-set autochdir " Automatically changes the directory to match the working file
-
-" Softtabs, 2 spaces "
-set tabstop=2
-set shiftwidth:2
-set shiftround
-set expandtab
-
-" Always keep gutter visible
-set signcolumn=yes
-
-" Use one space, not two after puncuation
-set nojoinspaces
-
-" Line number Numbers "
-set number relativenumber
-set numberwidth=5
-
-" CURSOR SHAPE/BEHAVIOR "
-" change on insertion blinky rectangle
-let &t_SI = "\e[1 q"
-" revert on exit insertion solid rectangle
-let &t_EI = "\e[2 q"
-
-"""""""""""""""""""""""""""""""""""""
-" Keybindings / Shortcuts / Aliases "
-"""""""""""""""""""""""""""""""""""""
-
-" vim-test mappings "
-nnoremap <silent> <Leader>t :TestFile<CR> 
-" setup test runner "
-nnoremap <silent> <Leader>s :TestNearest<CR>
-nnoremap <silent> <Leader>l :TestLast<CR>
-nnoremap <silent> <Leader>a :TestSuite<CR>
-
-" Move between Linting Errors "
-nnoremap ]r :ALENextWrap<CR>
-nnoremap ]r :ALEPreviousWrap<CR>
-nmap <leader>p :ALEFix<CR>
-
-" Movement Between Panes "
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-
-" FZF "
-nmap <C-p> :Files<CR>
-
-" RIPGREP "
-nmap <C-g> :Rg<CR>
-
-"""""""""
-" Panes "
-"""""""""
-
-" Open split panes below and to the right
-set splitbelow
-set splitright
-
-
-"""""""""""
-" Plugins "
-"""""""""""
-
-" ALE LINT
-" Some of the ale settings need to be set before the plugin loads
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_fixers = {
-  \ 'javascript': ['prettier', 'eslint']
-  \ }
-let g:ale_fix_on_save = 1
+function! s:SourceConfigFilesIn(directory)
+  let directory_splat = '~/.vim/' . a:directory . '/*'
+  for config_file in split(glob(directory_splat), '\n')
+    if filereadable(config_file)
+      execute 'source' config_file
+    endif
+  endfor
+endfunction
 
 if empty(glob('~/.vim/autoload/plug.vim'))
 	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -108,190 +22,48 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 	autocmd VimEnter * PlugInstall --sync | source ~/.vimrc
 endif
 
-" Check for bundles file & Source "
-if filereadable(expand("~/.vimrc.bundles"))
-	source ~/.vimrc.bundles
-endif
+" ------------------------
+" CALL CONFIG FOLDERS HERE
 
-filetype plugin indent on
+call plug#begin('~/.vim/bundle')
+call s:SourceConfigFilesIn('rcplugins')
+call plug#end()
 
-let g:user_emmet_leader_key='<C-y>'
-let g:user_emmet_settings = {
-	\ 'javascript.jsx': {
-	\	'extends': 'jsx'
-	\ },
-\ }
+call s:SourceConfigFilesIn('rcfiles')
 
+" SHOULD BE END OF VIMRC HERE
+"-----------------------------
+" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
 
-"""""""""""""""""""
-" Language Server "
-"""""""""""""""""""
+" let s:opam_share_dir = system("opam config var share")
+" let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
 
-let g:LanguageClient_autoStart = 1
-let g:LanguageClient_serverCommands = {}
+" let s:opam_configuration = {}
 
-""""""""""""
-" AUTOCMDS "
-""""""""""""
+" function! OpamConfOcpIndent()
+"   execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
+" endfunction
+" let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
 
-augroup language_client
-	autocmd!
-	
-	" ? Maybe clean this up and split it out into its own separate thing
-	autocmd BufNewFile, BufRead *.tsx, *.jsx, set filetype=typescript.jsx
+" function! OpamConfOcpIndex()
+"   execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
+" endfunction
+" let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
 
-  " Prefer to run on save instead of running all the time
-	" Ale linting events
-	" if g:has_async
-	" 	set updatetime=1000
-	" 	let g:ale_lint_on_text_changed = 0
-	" 	autocmd CursorHold * call ale#Lint()
-	" 	autocmd CursorHoldI * call ale#Lint()
-	" 	autocmd InsertEnter * call ale#Lint()
-	" 	autocmd InsertLeave * call ale#Lint()
-	" else
-	" 	echoerr "Your dotfiles require NeoVim or Vim8"
-	" endif
-	
-	if executable('javascript-typescript-stdio')
-		set hidden
-		let g:LanguageClient_serverCommands.javascript = [ 'javascript-typescript-stdio' ]
-		nnoremap <leader>d :call LanguageClient#textDocument_hover()<CR>
-		nnoremap <leader>gd :call LanguageClient#textDocument_definition()<CR>
-		nnoremap <leader>r :call LanguageClient#textDocument_rename()<CR>
-	endif
+" function! OpamConfMerlin()
+"   let l:dir = s:opam_share_dir . "/merlin/vim"
+"   execute "set rtp+=" . l:dir
+" endfunction
+" let s:opam_configuration['merlin'] = function('OpamConfMerlin')
 
-  " ReasonML
-  let g:LanguageClient_serverCommands.reason = [ '/$HOME/reason-language-server.exe' ]
-	
-augroup END
+" let s:opam_packages = ["ocp-indent", "ocp-index", "merlin"]
+" let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
+" let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
+" for tool in s:opam_packages
+"   " Respect package order (merlin should be after ocp-index)
+"   if count(s:opam_available_tools, tool) > 0
+"     call s:opam_configuration[tool]()
+"   endif
+" endfor
 
-augroup line_numbers
-	autocmd!
-	
-	autocmd BufEnter, FocusGained, InsertLeave * set relativenumber	
-	autocmd BufLeave, FocusLost, InsertEnter * set norelativenumber	
-	
-augroup END
-
-
-
-""""""""""""""
-" Appearance "
-""""""""""""""
-syntax enable
-
-if (has("termguicolors"))
-	set termguicolors
-endif
-
-
-"\\ COLOR SCHEME //"
-" downloaded
-" archery
-" gruvbox
-" night-owl
-" nord
-"" Set colorscheme with `colorscheme <scheme>`
-colorscheme nord 
-
-let g:lightline = {
-      \ 'colorscheme': 'nord',
-      \   'active': {
-      \       'left': [ [ 'mode', 'paste' ],
-      \               [ 'gitbranch' ],
-      \               [ 'readonly', 'filetype', 'filename' ]],
-      \       'right': [ [ 'percent' ], [ 'lineinfo' ],
-      \               [ 'fileformat', 'fileencoding' ],
-      \               [ 'linter_errors', 'linter_warnings' ]]
-      \   },
-      \   'component_expand': {
-      \       'linter': 'LightlineLinter',
-      \       'linter_warnings': 'LightlineLinterWarnings',
-      \       'linter_errors': 'LightlineLinterErrors',
-      \       'linter_ok': 'LightlineLinterOk'
-      \   },
-      \   'component_type': {
-      \       'readonly': 'error',
-      \       'linter_warnings': 'warning',
-      \       'linter_errors': 'error'
-      \   },
-      \   'component_function': {
-      \       'fileencoding': 'LightlineFileEncoding',
-      \       'filename': 'LightlineFileName',
-      \       'fileformat': 'LightlineFileFormat',
-      \       'filetype': 'LightlineFileType',
-      \       'gitbranch': 'LightlineGitBranch'
-      \   },
-      \   'tabline': {
-      \       'left': [ [ 'tabs' ] ],
-      \       'right': [ [ 'close' ] ]
-      \   },
-      \   'tab': {
-      \       'active': [ 'filename', 'modified' ],
-      \       'inactive': [ 'filename', 'modified' ],
-      \   },
-      \   'separator': { 'left': '', 'right': '' },
-      \   'subseparator': { 'left': '', 'right': '' }
-      \ }
-
-				function! LightlineFileName() abort
-            let filename = winwidth(0) > 70 ? expand('%') : expand('%:t')
-            let modified = &modified ? ' +' : ''
-            return fnamemodify(filename, ":~:.") . modified
-        endfunction
-
-        function! LightlineFileEncoding()
-            " only show the file encoding if it's not 'utf-8'
-            return &fileencoding == 'utf-8' ? '' : &fileencoding
-        endfunction
-
-        function! LightlineFileFormat()
-            " only show the file format if it's not 'unix'
-            let format = &fileformat == 'unix' ? '' : &fileformat
-            return winwidth(0) > 70 ? format . ' ' . WebDevIconsGetFileFormatSymbol() : ''
-        endfunction
-
-        function! LightlineFileType()
-            return WebDevIconsGetFileTypeSymbol()
-        endfunction
-
-        function! LightlineLinter() abort
-            let l:counts = ale#statusline#Count(bufnr(''))
-            return l:counts.total == 0 ? '' : printf('×%d', l:counts.total)
-        endfunction
-
-        function! LightlineLinterWarnings() abort
-            let l:counts = ale#statusline#Count(bufnr(''))
-            let l:all_errors = l:counts.error + l:counts.style_error
-            let l:all_non_errors = l:counts.total - l:all_errors
-            return l:counts.total == 0 ? '' : '⚠ ' . printf('%d', all_non_errors)
-        endfunction
-
-        function! LightlineLinterErrors() abort
-            let l:counts = ale#statusline#Count(bufnr(''))
-            let l:all_errors = l:counts.error + l:counts.style_error
-            return l:counts.total == 0 ? '' : '✖ ' . printf('%d', all_errors)
-        endfunction
-
-        function! LightlineLinterOk() abort
-            let l:counts = ale#statusline#Count(bufnr(''))
-            return l:counts.total == 0 ? 'OK' : ''
-        endfunction
-
-        function! LightlineGitBranch()
-            return "\uE725" . (exists('*fugitive#head') ? fugitive#head() : '')
-        endfunction
-
-        function! LightlineUpdate()
-            " if g:goyo_entered == 0 Possibly install goyo, looks pretty bomb
-                " do not update lightline if in Goyo mode
-                call lightline#update()
-            " endif
-        endfunction
-
-        augroup alestatus
-            autocmd User ALELintPost call LightlineUpdate()
-				augroup end
-
-set runtimepath+=~/.vim/plugins/LanguageClient-neovim
+" ## end of OPAM user-setup addition for vim / base ## keep this line

@@ -1,12 +1,17 @@
 export DOTFILES=$HOME/.dotfiles
 export ZSH=$DOTFILES/zsh
 
+# export GOPATH=$HOME/go
+# export GOROOT=/usr/local/opt/go/libexec
+
 export VISUAL=vim
 export EDITOR=$VISUAL
 export GIT_EDITOR=$VISUAL
 export TERM=xterm-256color-italic
 
 export PATH=/usr/local/bin:$PATH
+# export PATH=$PATH:$GOPATH/bin
+# export PATH=$PATH:$GOROOT/bin
 
 command_exists() {
   type "$1" > /dev/null 2>&1
@@ -28,3 +33,7 @@ if [ -d $ZSH/post ]; then
 fi
 
 
+export HOMEBREW_GITHUB_API_TOKEN=fa7872b07f4de4e59cd11107a5f00a98a22730de
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export PATH="/usr/local/sbin:$PATH"

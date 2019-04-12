@@ -61,6 +61,13 @@ Plug 'peitalin/vim-jsx-typescript'
 
 " }}}
 
+" << RUST >> {{
+Plug 'rust-lang/rust.vim'
+let g:autofmt_autosave=1
+" }}
+
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 
 """""""""""""""""""""
 " General Utilities "

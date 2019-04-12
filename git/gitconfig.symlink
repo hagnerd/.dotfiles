@@ -2,14 +2,15 @@
 [user]
 	name = Matt Hagner
 	email = web@matthagner.com
-[github]
-	user = hagnerd
 [alias]
 	cob = checkout -b
 	s = status --short
 	ss = status
 	br = branch -v
+  conflicted = '!vim +Conflicted'
 [credential]
 	helper = osxkeychain
 [color]
 	ui = auto
+[init]
+	templatedir = ~/.git_template
