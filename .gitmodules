@@ -1,3 +1,6 @@
 [submodule "pure"]
   path = pure
   url = https://github.com/sindresorhus/pure
+[submodule ".vim"]
+	path = .vim
+	url = https://github.com/hagnerd/.vim

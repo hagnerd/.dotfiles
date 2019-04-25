@@ -13,6 +13,8 @@ export PATH=/usr/local/bin:$PATH
 # export PATH=$PATH:$GOPATH/bin
 # export PATH=$PATH:$GOROOT/bin
 
+export PATH="$PATH:/usr/local/Cellar/yarn/1.15.2/bin"
+
 command_exists() {
   type "$1" > /dev/null 2>&1
 }
@@ -33,7 +35,7 @@ if [ -d $ZSH/post ]; then
 fi
 
 
-export HOMEBREW_GITHUB_API_TOKEN=fa7872b07f4de4e59cd11107a5f00a98a22730de
+source $ZSH/github_auth.zsh
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="/usr/local/sbin:$PATH"

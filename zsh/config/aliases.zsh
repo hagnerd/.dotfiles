@@ -17,3 +17,7 @@ alias ins="open -a 'Visual Studio Code - Insiders'"
 alias git="hub"
 
 alias get="curl -OL"
+
+# Reason -> OCaml
+alias mlre="pbpaste | refmt --parse ml --print re --interface false | pbcopy"
+alias reml="pbpaste | refmt --parse re --print ml --interface false | pbcopy"

@@ -14,8 +14,13 @@ echo "-----------------------------------"
 
 formulas=(
   ack
+  asciinema
+  bat
   chunkwm
+  exa
+  fish
   fzf
+  ghc
   git
   git-standup
   gnupg
@@ -25,17 +30,22 @@ formulas=(
   imagemagick
   mas
   mongodb
+  mysql
   neovim
+  ocaml
+  ocaml-findlib
+  opam
   peco
+  postgresql
   python
-  python3
+  'python@2'
   ripgrep
   ruby
   skhd
   sqlite
   the_silver_searcher
   tmux
-  todoist
+  trash
   unrar
   vim
   watchman
@@ -46,24 +56,32 @@ formulas=(
 )
 
 cask_formulas=(
+  alacritty
   cheatsheet
-  dropbox
   gimp
+  hyper
   insomnia
   karabiner-elements
   keycastr
   obs
+  oni
   slack
   smcfancontrol
+  spotify
   visual-studio-code
   vlc
 )
 
 fonts=(
+  font-anonymouspro-nerd-font-mon
+  font-arimo-nerd-font-mono
   font-firacode-nerd-font
   font-firacode-nerd-font-mono
   font-hack-nerd-font
   font-hasklig-nerd-font
+  font-noto-nerd-font-mono
+  font-sourcecodepro-nerd-font
+  font-spacemono-nerd-font-mono
 )
 
 # iterate through the list of brew apps and install if not already installed
