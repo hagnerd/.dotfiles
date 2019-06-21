@@ -27,6 +27,11 @@ if [ "$(uname)" == "Darwin" ]; then
   # Installs n for easy node version management 👍
   curl -L https://git.io/n-install | bash
 
+  if ! [ -d "$HOME/.git_template" ]; then
+    echo "Creating ~/.git_template directory"
+    mkdir $HOME/.git_template
+  fi
+
 fi
 
 source install/zsh.sh
