@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # rustup doesn't exist then install 
 if type "$rustup" > /dev/null; then
