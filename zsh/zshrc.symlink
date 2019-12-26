@@ -1,9 +1,6 @@
 export DOTFILES=$HOME/.dotfiles
 export ZSH=$DOTFILES/zsh
 
-# export GOPATH=$HOME/go
-# export GOROOT=/usr/local/opt/go/libexec
-
 export VISUAL=nvim
 export EDITOR=$VISUAL
 export GIT_EDITOR=$VISUAL
@@ -11,8 +8,6 @@ export TERM=xterm-256color-italic
 
 export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/bin:$PATH
-# export PATH=$PATH:$GOPATH/bin
-# export PATH=$PATH:$GOROOT/bin
 
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
@@ -21,6 +16,10 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export PATH="$PATH:/usr/local/Cellar/yarn/1.16.0/bin"
+
+PROXY_URL="http://ADEBPhagnma9:6EvebwWg7f@fhdcproxy.verizon.com:80"
+alias naproxy='export http_proxy="${PROXY_URL}"; export no_proxy="vzbi.com,localhost,127.0.0.1.0.0.0.0";'
+alias nrproxy='unset http_proxy; unset no_proxy;'
 
 fpath=($ZSH/functions $fpath)
 
@@ -49,6 +48,8 @@ source $ZSH/github_auth.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="/usr/local/sbin:$PATH"
 
+export FZF_DEFAULT_OPTS="--layout=reverse --ansi --preview 'bat --color=always --style=header,numbers,changes {}'"
+
 eval "$(rbenv init -)"
 
 # opam configuration
@@ -67,3 +68,4 @@ test -r /Users/matthewhagner/.opam/opam-init/init.zsh && . /Users/matthewhagner/
 
 # starship prompt config 
 eval "$(starship init zsh)"
+
