@@ -20,7 +20,7 @@ if [ "$(uname)" == "Darwin" ]; then
 		xcode-select --install
 	fi
 
-	source install/brew.sh
+	source install/brew.minimal.sh
 	source install/osx.sh
   source install/rust.sh
 
