@@ -67,3 +67,5 @@ test -r /Users/matthewhagner/.opam/opam-init/init.zsh && . /Users/matthewhagner/
 
 # starship prompt config 
 eval "$(starship init zsh)"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
