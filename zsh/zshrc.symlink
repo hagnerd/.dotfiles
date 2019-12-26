@@ -1,5 +1,6 @@
 export DOTFILES=$HOME/.dotfiles
 export ZSH=$DOTFILES/zsh
+export ZSH_LOCAL=$HOME/.zsh/local
 
 export VISUAL=nvim
 export EDITOR=$VISUAL
@@ -16,10 +17,6 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 export PATH="$PATH:/usr/local/Cellar/yarn/1.16.0/bin"
-
-PROXY_URL="http://ADEBPhagnma9:6EvebwWg7f@fhdcproxy.verizon.com:80"
-alias naproxy='export http_proxy="${PROXY_URL}"; export no_proxy="vzbi.com,localhost,127.0.0.1.0.0.0.0";'
-alias nrproxy='unset http_proxy; unset no_proxy;'
 
 fpath=($ZSH/functions $fpath)
 
@@ -42,6 +39,29 @@ if [ -d $ZSH/post ]; then
   for postconfig ($ZSH/post/**/*.zsh) source $postconfig
 fi
 
+if [ -d $ZSH_LOCAL/public/pre ]; then
+  for conf ($ZSH_LOCAL/public/pre/**/*.zsh) source $conf
+fi
+
+if [ -d $ZSH_LOCAL/public/config ]; then
+  for conf ($ZSH_LOCAL/public/config/**/*.zsh) source $conf
+fi
+
+if [ -d $ZSH_LOCAL/public/post ]; then
+  for conf ($ZSH_LOCAL/public/post/**/*.zsh) source $conf
+fi
+
+if [ -d $ZSH_LOCAL/private/pre ]; then
+  for conf ($ZSH_LOCAL/private/pre/**/*.zsh) source $conf
+fi
+
+if [ -d $ZSH_LOCAL/private/config ]; then
+  for conf ($ZSH_LOCAL/private/config/**/*.zsh) source $conf
+fi
+
+if [ -d $ZSH_LOCAL/private/post ]; then
+  for conf ($ZSH_LOCAL/private/post/**/*.zsh) source $conf
+fi
 
 source $ZSH/github_auth.zsh
 
