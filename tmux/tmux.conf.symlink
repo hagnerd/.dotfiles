@@ -43,6 +43,8 @@ bind C-h resize-pane -L 10
 # MISC
 #
 
+TMUX_FZF_SED="/usr/local/opt/gnu-sed/bin/gsed"
+
 # start window numbers at 1
 set -g base-index 1
 set-window-option -g pane-base-index 1
@@ -68,6 +70,7 @@ if-shell "[ -f ~/.tmux.conf.local ]" 'source ~/.tmux.conf.local'
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'arcticicestudio/nord-tmux'
+set -g @plugin 'sainnhe/tmux-fzf'
 
 run -b '~/.tmux/plugins/tpm/tpm'
 
