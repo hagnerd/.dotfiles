@@ -1,6 +1,10 @@
+# This makes the default behavior of a non-matching glob to be null instead of
+# throwing an error
+setopt NULL_GLOB
+
 export DOTFILES=$HOME/.dotfiles
 export ZSH=$DOTFILES/zsh
-export ZSH_LOCAL=$HOME/.zsh/local
+export ZSH_LOCAL=$HOME/.zsh
 
 export VISUAL=nvim
 export EDITOR=$VISUAL
@@ -9,84 +13,60 @@ export TERM=xterm-256color-italic
 
 export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/bin:$PATH
-
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-
 export PATH="$PATH:/usr/local/Cellar/yarn/1.16.0/bin"
+export PATH="$PATH:$HOME/Library/Python/3.7/bin"
 
 fpath=($ZSH/functions $fpath)
 
-command_exists() {
-  type "$1" > /dev/null 2>&1
+config_paths=($ZSH $ZSH_LOCAL $ZSH_LOCAL/private)
+
+src_pre () {
+  folders=("$@")
+
+  for folder in $folders 
+  do
+    src $folder/pre  
+  done
+
 }
 
-# iterate through any nested zsh pre-config files, and source them
-if [ -d $ZSH/pre ]; then
-  for preconfig ($ZSH/pre/**/*.zsh) source $preconfig
-fi
+src_conf () {
+  folders=("$@")
 
-  # iterate through any nested zsh config files, and source them
-if [ -d $ZSH/config ]; then
-  for config ($ZSH/config/**/*.zsh) source $config
-fi
+  for folder in $folders
+  do
+    src $folder/config 
+  done
+}
 
-# iterate through any nested zsh post-config files, and source them
-if [ -d $ZSH/post ]; then
-  for postconfig ($ZSH/post/**/*.zsh) source $postconfig
-fi
+src_post () {
+  folders=("$@")
+  for folder in $folders
+  do 
+    src $folder/post
+  done
+}
 
-if [ -d $ZSH_LOCAL/public/pre ]; then
-  for conf ($ZSH_LOCAL/public/pre/**/*.zsh) source $conf
-fi
+src () {
+  configs=($1/**/*.zsh) 
 
-if [ -d $ZSH_LOCAL/public/config ]; then
-  for conf ($ZSH_LOCAL/public/config/**/*.zsh) source $conf
-fi
+  if [ ${#configs[@]} -gt 0 ]; then
+    for conf in $configs 
+    do
+      source $conf
+    done
+  fi
+}
 
-if [ -d $ZSH_LOCAL/public/post ]; then
-  for conf ($ZSH_LOCAL/public/post/**/*.zsh) source $conf
-fi
+src_pre $config_paths
+src_conf $config_paths
+src_post $config_paths
 
-if [ -d $ZSH_LOCAL/private/pre ]; then
-  for conf ($ZSH_LOCAL/private/pre/**/*.zsh) source $conf
-fi
-
-if [ -d $ZSH_LOCAL/private/config ]; then
-  for conf ($ZSH_LOCAL/private/config/**/*.zsh) source $conf
-fi
-
-if [ -d $ZSH_LOCAL/private/post ]; then
-  for conf ($ZSH_LOCAL/private/post/**/*.zsh) source $conf
-fi
-
-source $ZSH/github_auth.zsh
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export PATH="/usr/local/sbin:$PATH"
 
-export FZF_DEFAULT_OPTS="--layout=reverse --ansi --preview 'bat --color=always --style=header,numbers,changes {}'"
-
-eval "$(rbenv init -)"
-
-# opam configuration
-test -r /Users/matthewhagner/.opam/opam-init/init.zsh && . /Users/matthewhagner/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-
-# tabtab source for serverless package
-# uninstall by removing these lines or running `tabtab uninstall serverless`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.zsh
-# tabtab source for sls package
-# uninstall by removing these lines or running `tabtab uninstall sls`
-[[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.zsh
-# tabtab source for slss package
-# uninstall by removing these lines or running `tabtab uninstall slss`
-# [[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh ]] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/slss.zsh# fnm
-# eval "$(fnm env --multi)"
-
-# starship prompt config 
-eval "$(starship init zsh)"
-
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+## KEEP this as the final thing sourced
+source $ZSH/syntax-highlighting.zsh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
