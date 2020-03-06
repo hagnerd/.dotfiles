@@ -9,5 +9,6 @@
 	br = branch -v
 	conflicted = !vim +Conflicted
   fza = "!git ls-files -m -o --exclude-standard | fzf --preview 'bat --color=always {}' --print0 -m | xargs -0 -t -o git add"
+  fb = "!git checkout $(git branch | fzf)"
 [color]
 	ui = auto
